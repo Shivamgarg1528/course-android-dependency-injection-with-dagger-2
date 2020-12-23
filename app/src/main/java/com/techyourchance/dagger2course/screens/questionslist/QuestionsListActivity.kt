@@ -2,16 +2,8 @@ package com.techyourchance.dagger2course.screens.questionslist
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ViewHolder
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.techyourchance.dagger2course.Constants
-import com.techyourchance.dagger2course.R
 import com.techyourchance.dagger2course.networking.StackoverflowApi
 import com.techyourchance.dagger2course.questions.Question
 import com.techyourchance.dagger2course.screens.common.dialogs.ServerErrorDialogFragment
@@ -19,7 +11,6 @@ import com.techyourchance.dagger2course.screens.questiondetails.QuestionDetailsA
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.*
 
 class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener {
 
@@ -36,7 +27,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
 
         viewMvc = QuestionsListViewMvc(LayoutInflater.from(this), null)
 
-        setContentView(viewMvc.rootView)
+        setContentView(viewMvc.mRootView)
 
         // init retrofit
         val retrofit = Retrofit.Builder()
@@ -48,7 +39,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this)
+        viewMvc.addListener(this)
         if (!isDataLoaded) {
             fetchQuestions()
         }
@@ -57,7 +48,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
-        viewMvc.unregisterListener(this)
+        viewMvc.removeListener(this)
     }
 
     override fun onRefreshClicked() {

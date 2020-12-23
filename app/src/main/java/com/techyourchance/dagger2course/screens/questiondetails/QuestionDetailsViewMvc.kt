@@ -2,27 +2,24 @@ package com.techyourchance.dagger2course.screens.questiondetails
 
 import android.text.Spanned
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.techyourchance.dagger2course.R
+import com.techyourchance.dagger2course.screens.BaseViewMvc
 import com.techyourchance.dagger2course.screens.common.toolbar.MyToolbar
 
-class QuestionDetailsViewMvc(layoutInflater: LayoutInflater, parent: ViewGroup?) {
-
-    interface Listener {
-        fun onNavigationUp()
-    }
-
-    val rootView: View = layoutInflater.inflate(R.layout.layout_question_details, parent, false)
-
+class QuestionDetailsViewMvc(
+        layoutInflater: LayoutInflater,
+        parent: ViewGroup?
+) : BaseViewMvc<QuestionDetailsViewMvc.Listener>(
+        layoutInflater,
+        parent,
+        R.layout.layout_question_details
+) {
     private val toolbar: MyToolbar
     private val swipeRefresh: SwipeRefreshLayout
     private val txtQuestionBody: TextView
-
-    private val mListeners = HashSet<Listener>()
 
     init {
         txtQuestionBody = findViewById(R.id.txt_question_body)
@@ -52,15 +49,7 @@ class QuestionDetailsViewMvc(layoutInflater: LayoutInflater, parent: ViewGroup?)
         txtQuestionBody.text = spanned
     }
 
-    fun addListener(listener: Listener) {
-        mListeners.add(listener)
-    }
-
-    fun removeListener(listener: Listener) {
-        mListeners.remove(listener)
-    }
-
-    private fun <T : View?> findViewById(@IdRes resId: Int): T {
-        return rootView.findViewById<T>(resId)
+    interface Listener {
+        fun onNavigationUp()
     }
 }

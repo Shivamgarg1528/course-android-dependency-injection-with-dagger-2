@@ -25,7 +25,7 @@ class QuestionDetailsActivity : AppCompatActivity(), QuestionDetailsViewMvc.List
         super.onCreate(savedInstanceState)
 
         questionDetailsViewMvc = QuestionDetailsViewMvc(LayoutInflater.from(this), null)
-        setContentView(questionDetailsViewMvc.rootView)
+        setContentView(questionDetailsViewMvc.mRootView)
 
         // init retrofit
         val retrofit = Retrofit.Builder()
